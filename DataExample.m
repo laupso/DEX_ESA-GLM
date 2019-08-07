@@ -1,43 +1,43 @@
-% Exemple de script permettant d'importer les données d'un fichier .glm et
+% Exemple de script permettant d'importer les donnÃ©es d'un fichier .glm et
 % de plotter quelques signaux.
-% Le script importe les données du fichier dans une table de données (T).
+% Le script importe les donnÃ©es du fichier dans une table de donnÃ©es (T).
 % Pour plus d'info sur l'utilisation des tables en Matlab:
 %   "https://nl.mathworks.com/help/matlab/ref/table.html"
 %
 %
 % ++ LO 2019 ++
 
-% Chemin d'accès au fichier (A MODIFIER):
+% Chemin d'accÃ¨s au fichier (A MODIFIER):
 filepath = '.\test.glm';
 
-% Importer les données et les stocker dans une table de données:
+% Importer les donnÃ©es et les stocker dans une table de donnÃ©es:
 T = importGLMdata(filepath);
 
-% Afficher le nom des différentes variables dans la Command Window:
+% Afficher le nom des diffÃ©rentes variables dans la Command Window:
 for i = 1:length(T.Properties.VariableNames)
     disp(T.Properties.VariableNames{i});
 end
 
-% Mise à zéro des forces en soustrayant la valeur moyenne des signaux des
-% 500 premères ms. 
+% Mise Ã  zÃ©ro des forces en soustrayant la valeur moyenne des signaux des
+% 500 premÃ¨res ms. 
 baseline = 1:400; 
 GF  = T.GF - nanmean(T.GF(baseline),1);
 LFt = T.LFt - nanmean(T.LFt(baseline),1);
 LFv = -(T.LFv - nanmean(T.LFv(baseline,:),1));
 
-% Conversion de l'accélération de 'g' à m/s^2
-% Note: l'accéléromètre mesure aussi l'accélération gravitationnelle ! D'où
+% Conversion de l'accÃ©lÃ©ration de 'g' Ã  m/s^2
+% Note: l'accÃ©lÃ©romÃ¨tre mesure aussi l'accÃ©lÃ©ration gravitationnelle ! D'oÃ¹
 % l'offset d'environ 1g (= 9.81 m/s^2) 
 acc = -9.81*T.LowAcc_X;  
 
 
-% Plot de l'accélération verticale, LF verticale, LF totale et GF
+% Plot de l'accÃ©lÃ©ration verticale, LF verticale, LF totale et GF
 F = figure;
 
 subplot(311); hold on; grid on; box on;
 plot(T.time,acc,'k');
-ylabel('Accélération [m/s^2]');
-title('Exemple de tracés d''accélération et de forces');
+ylabel('AccÃ©lÃ©ration [m/s^2]');
+title('Exemple de tracÃ©s d''accÃ©lÃ©ration et de forces');
 
 subplot(312); hold on; grid on; box on;
 plot(T.time,LFv,'k');
